@@ -1,0 +1,169 @@
+API Documentation
+
+
+Creating a Poll
+Endpoint: POST /create-poll
+
+Request Body:
+
+{
+  "title": "My Poll",
+  "category": "General",
+  "start_date": "2023-10-01",
+  "end_date": "2023-10-31",
+  "min_reward": 10,
+  "max_reward": 50
+}
+Description: Create a new poll with the specified details.
+
+Adding a Question Set to a Poll
+Endpoint: POST /add-question-set/:pollId
+
+Request Body:
+
+{
+  "question_type": "single",
+  "question_text": "Which is your favorite color?",
+  "options": ["Red", "Blue", "Green"]
+}
+Description: Add a question set to an existing poll.
+
+Fetching All Created Polls
+Endpoint: GET /polls
+Description: Get a list of all created polls.
+Request Parameters
+None
+
+Response
+Status: 200 OK
+Response Body:
+
+[
+  {
+    "id": 1,
+    "title": "My First Poll",
+    "category": "General",
+    "start_date": "2023-10-01",
+    "end_date": "2023-10-31",
+    "total_votes": 25,
+    "question_count": 3,
+    "sample_question": "Which color do you prefer?"
+  },
+  // ... (more polls)
+]
+Update Poll Details
+Endpoint: PUT /update-poll/:pollId
+Description: Update details of a particular poll.
+Request Parameters
+pollId (integer, required): The unique identifier of the poll to be updated.
+Request Body
+You can include one or more of the following fields to update the poll:
+{
+  "title": "Updated Poll Title",
+  "category": "Updated Category",
+  "min_reward": 15,
+  "max_reward": 60
+}
+Response
+Status: 200 OK
+Response Body:
+
+{
+  "message": "Poll details updated successfully"
+}
+Update a Particular Question Set
+Endpoint: PUT /update-question-set/:pollId/:questionId
+Description: Update details of a question set within a poll.
+Request Parameters
+pollId (integer, required): The unique identifier of the poll containing the question set.
+questionId (integer, required): The unique identifier of the question set to be updated.
+Request Body
+You can include one or more of the following fields to update the question set:
+
+
+{
+  "question_text": "Updated question text",
+  "options": ["Updated Option 1", "Updated Option 2"]
+}
+Response
+Status: 200 OK
+Response Body:
+
+{
+  "message": "Question set updated successfully"
+}
+Fetch Poll Analytics for a Particular Poll
+Endpoint: GET /poll-analytics/:pollId
+Description: Get analytics data for a particular poll.
+Request Parameters
+pollId (integer, required): The unique identifier of the poll for which analytics are requested.
+Response
+Status: 200 OK
+Response Body:
+
+{
+  "poll_title": "My Poll",
+  "total_votes": 50,
+  "option_counts": {
+    "Option A": 20,
+    "Option B": 15,
+    "Option C": 15
+  }
+}
+Fetch Overall Poll Analytics
+Endpoint: GET /overall-poll-analytics
+Description: Get overall analytics data for all polls.
+Request Parameters
+None
+
+Response
+Status: 200 OK
+Response Body:
+
+{
+  "total_votes": 300,
+  "option_counts": {
+    "Option A": 100,
+    "Option B": 120,
+    "Option C": 80
+  }
+}
+
+
+Endpoint: /submit-poll/:userId
+Method: POST
+Description: Submit a poll.
+
+Request:
+userId (User identifier)
+Include other required request parameters here.
+
+Response:
+Success:
+Status: 200
+Message: Poll submitted successfully.
+Data:
+reward (Reward amount earned by the user)
+
+If Error:
+Status: 400
+Message: Invalid submission data.
+
+
+Endpoint: /user-polls/:userId
+Method: GET
+Description: Fetch user polls and serve questions.
+
+Request:
+userId (User identifier)
+Additional optional parameters can be documented here if needed.
+
+Response:
+Success:
+Status: 200
+Message: User polls and questions served successfully.
+Data: Describe the structure of the response data here.
+
+If Error:
+Status: 404
+Message: User not found.
